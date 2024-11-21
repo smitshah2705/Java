@@ -12,6 +12,12 @@ public class Dealer
         HandValue = 0;
     }
 
+    public String Playcard(Deck deck)
+    {
+        addCardtoHand(Deck deck);
+        return deck;
+    }
+    
     public void addCardtoHand(Deck deck)
     {
         dealerCards.add(deck);
@@ -24,6 +30,12 @@ public class Dealer
         {
             HandValue += dealerCards.get(i);
         }
+    }
+
+    public void clearHands()
+    {
+        dealerCards.clear();
+        CurrentCard.resetCard();
     }
 
 }
