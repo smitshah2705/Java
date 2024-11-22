@@ -1,9 +1,10 @@
 import java.util.List;
 import java.util.ArrayList;
 
+
 public class Dealer
 {
-    private List <String> dealerCards;
+    private List <Deck> dealerCards;
     private int HandValue;
 
     public Dealer()
@@ -12,7 +13,7 @@ public class Dealer
         HandValue = 0;
     }
 
-    public String Playcard(Deck deck)
+    public Deck Playcard(Deck deck)
     {
         addCardtoHand(Deck deck);
         return deck;
@@ -24,18 +25,19 @@ public class Dealer
         CurrentCard.addCard(deck);
     }
 
-    public void calculateHand()
-    {
-        for (int i =0; i<dealerCards.size()-1; i++)
-        {
-            HandValue += dealerCards.get(i);
-        }
-    }
+    // public void calculateHand()
+    // {
+    //     for (int i =0; i<dealerCards.size()-1; i++)
+    //     {
+    //         HandValue += dealerCards.get(i);
+    //     }
+    // }
 
     public void clearHands()
     {
         dealerCards.clear();
         CurrentCard.resetCard();
+        HandValue = 0;
     }
 
 }
