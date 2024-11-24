@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public class Dealer
 {
     private List <Deck> dealerCards;
-    private int HandValue;
+    private int DealerHandValue;
 
     public Dealer()
     {
         dealerCards = new ArrayList<>();
-        HandValue = 0;
+        DealerHandValue = 0;
     }
 
     public Deck Playcard(Deck deck)
@@ -33,11 +33,11 @@ public class Dealer
     //     }
     // }
 
-    public void clearHands()
+    public void DealerclearHands()
     {
         dealerCards.clear();
         CurrentCard.resetCard();
-        HandValue = 0;
+        DealerHandValue = 0;
     }
 
 }
