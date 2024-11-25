@@ -1,13 +1,13 @@
-import java.util.List;
+
 import java.util.ArrayList;
 
 public class CurrentCard
 {
-    private static List <Deck> currentCards;
+    private static ArrayList <Deck> currentCards;
     
         public CurrentCard()
         {
-            currentCards = new ArrayList<>();
+            currentCards = new ArrayList<Deck>();
         }
     
         public static void addCard(Deck deck)

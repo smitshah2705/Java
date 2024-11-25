@@ -1,9 +1,9 @@
-import java.util.List;
+
 import java.util.ArrayList;
 
 public class Player {
     private String PlayerName;
-    private List <Deck> playerCards;
+    private ArrayList <Deck> playerCards;
     private int PlayerHandValue;
     private boolean Stand;
     private int TotalChips;
@@ -13,7 +13,7 @@ public class Player {
     {
         PlayerName = thisPlayerName;
         TotalChips = thisTotalChips;
-        playerCards = new ArrayList<>();
+        playerCards = new ArrayList<Deck>();
         PlayerHandValue = 0;
         Stand = false;
         CurrentChips = 0;
@@ -42,6 +42,42 @@ public class Player {
         TotalChips -= amount;
         CurrentChips = amount;
     }
+
+    public void PlayerclearHands()
+    {
+        playerCards.clear();
+        CurrentCard.resetCard();
+        PlayerHandValue = 0;
+    }
+
+    public void stand()
+    {
+        PlayerCalculateHand();
+    }
+
+    public void winBet()
+    {
+        if(PlayerHandValue == 21)
+        {
+            TotalChips += 2 * CurrentChips;
+        }
+        else{
+            TotalChips += 1.5 * CurrentChips;
+        }
+    }
+
+    public void loseBet()
+    {
+        if (TotalChips - CurrentChips <= 0)
+        {
+            System.out.println("You are Bankrupt. You lose!");
+        }
+        else
+        {
+            TotalChips -= CurrentChips;
+        }
+    }
+
 
     
 

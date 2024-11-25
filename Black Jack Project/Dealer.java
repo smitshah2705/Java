@@ -1,15 +1,15 @@
-import java.util.List;
+
 import java.util.ArrayList;
 
 
 public class Dealer
 {
-    private List <Deck> dealerCards;
+    private ArrayList <Deck> dealerCards;
     private int DealerHandValue;
 
     public Dealer()
     {
-        dealerCards = new ArrayList<>();
+        dealerCards = new ArrayList<Deck>();
         DealerHandValue = 0;
     }
 
@@ -17,6 +17,7 @@ public class Dealer
     {
         addCardtoHand(Deck deck);
         return deck;
+        DealerCalculateHand()
     }
     
     public void addCardtoHand(Deck deck)
@@ -25,7 +26,7 @@ public class Dealer
         CurrentCard.addCard(deck);
     }
 
-    // public void calculateHand()
+    // public void DealerCalculateHand()
     // {
     //     for (int i =0; i<dealerCards.size()-1; i++)
     //     {
