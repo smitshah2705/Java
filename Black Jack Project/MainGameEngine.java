@@ -23,7 +23,19 @@ public class MainGameEngine {
         int player2TotalChips = scanner.nextInt();
         scanner.nextLine();
 
-        Player Player1 = new Player()
+        Player Player1 = new Player(player1Name, player1TotalChips);
+        Player Player2 = new Player(player2Name, player2TotalChips);
+        Dealer dealer = new Dealer();
+
+        boolean Continue = true;
+
+        while (Continue = true )
+        {
+            Player1.PlayerclearHands();
+            Player2.PlayerclearHands();
+            Dealer.DealerclearHands();
+        }
+
 
 
 
