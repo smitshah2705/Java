@@ -5,14 +5,14 @@ public class Deck {
     private String[] Suits = {"Diamond", "Heart", "Clubs", "Spades"};
     private String[] Rank = {"2", "3", "4", "5", "6", "7", "8", "9", "10", 
     "Jack", "Queen", "King", "Ace"};
-    private ArrayList<String> cards;
+    private static ArrayList<String> cards;
 
     public Deck()
     {
         cards = new ArrayList <String> ();
         for (int i = 0;i < Suits.length;i++)
         {
-            for (int y = 0;i < Rank.length;y++)
+            for (int y = 0;y < Rank.length;y++)
             {
                 cards.add(Rank[y] + " of " + Suits[i]);
             }
@@ -25,7 +25,7 @@ public class Deck {
         Collections.shuffle(cards);
     }
 
-    public String Drawcard()
+    static String Drawcard()
     {
         if(cards.isEmpty())
         {
@@ -33,5 +33,20 @@ public class Deck {
         }
         return cards.remove(0);
     }
+
+    public void resetDeck()
+    {
+        cards.clear();
+        for (int i = 0;i < Suits.length;i++)
+        {
+            for (int y = 0;i < Rank.length;y++)
+            {
+                cards.add(Rank[y] + " of " + Suits[i]);
+            }
+        }
+
+        shuffle();
+    }
+
 
 }

@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Player {
     private String PlayerName;
-    private ArrayList <Deck> playerCards;
+    private ArrayList <String> playerCards;
     private int PlayerHandValue;
     private boolean Stand;
     private int TotalChips;
@@ -13,23 +13,64 @@ public class Player {
     {
         PlayerName = thisPlayerName;
         TotalChips = thisTotalChips;
-        playerCards = new ArrayList<Deck>();
+        playerCards = new ArrayList<String>();
         PlayerHandValue = 0;
         Stand = false;
         CurrentChips = 0;
 
     }
 
-    public Deck hit(Deck deck)
+    public String hit()
     {
-        addCardtoHand(Deck deck);
-        return deck;
+        String card = Deck.Drawcard();
+        addCardtoHand(card);
+        if(card.contains("King") || card.contains("Queen") || card.contains("Jack") || card.contains("10"))
+        {
+            PlayerHandValue += 10;
+        }
+        else if(card.contains("9"))
+        {
+            PlayerHandValue += 9;
+        }
+        else if(card.contains("8"))
+        {
+            PlayerHandValue += 8;
+        }
+        else if(card.contains("7"))
+        {
+            PlayerHandValue += 7;
+        }
+        else if(card.contains("6"))
+        {
+            PlayerHandValue += 6;
+        }
+        else if(card.contains("5"))
+        {
+            PlayerHandValue += 5;
+        }
+        else if(card.contains("4"))
+        {
+            PlayerHandValue += 4;
+        }
+        else if(card.contains("3"))
+        {
+            PlayerHandValue += 3;
+        }
+        else if(card.contains("2"))
+        {
+            PlayerHandValue += 2;
+        }
+        else if(card.contains("Ace"))
+        {
+            PlayerHandValue += 11;
+        }
+        return card;
     }
 
-    public void addCardtoHand(Deck deck)
+    public void addCardtoHand(String card)
     {
-        playerCards.add(deck);
-        CurrentCard.addCard(deck);
+        playerCards.add(card);
+        CurrentCard.addCard(card);
     }
 
     public void placeBet(int amount)
@@ -52,7 +93,7 @@ public class Player {
 
     public void stand()
     {
-        PlayerCalculateHand();
+        Stand = true;
     }
 
     public void winBet()

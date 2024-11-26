@@ -3,16 +3,16 @@ import java.util.ArrayList;
 
 public class CurrentCard
 {
-    private static ArrayList <Deck> currentCards;
+    private static ArrayList <String> currentCards;
     
         public CurrentCard()
         {
-            currentCards = new ArrayList<Deck>();
+            currentCards = new ArrayList<String>();
         }
     
-        public static void addCard(Deck deck)
+        public static void addCard(String card)
         {
-            currentCards.add(deck);
+            currentCards.add(card);
         }
     
         public static void resetCard()
@@ -20,8 +20,8 @@ public class CurrentCard
             currentCards.clear();
     }
 
-    public boolean containsCard(Deck deck)
+    public boolean containsCard(String card)
     {
-        return currentCards.contains(deck);
+        return currentCards.contains(card);
     }
 }
