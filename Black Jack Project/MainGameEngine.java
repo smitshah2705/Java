@@ -34,6 +34,21 @@ public class MainGameEngine {
             Player1.PlayerclearHands();
             Player2.PlayerclearHands();
             Dealer.DealerclearHands();
+            Deck.resetDeck();
+
+            String player1FirstInitial = Player1.hit();
+            String player1SecondInitial = Player1.hit();
+            
+            String player2FirstInitial = Player2.hit();
+            String player2SecondInitial = Player2.hit();
+
+            String dealerFirstInitial = dealer.Playcard();
+            String dealerSecondInitial = dealer.Playcard();
+
+            System.out.println("Dealer's cards are " + dealerFirstInitial + " and " + dealerSecondInitial + ".");
+            System.out.println("The dealer's hand value = " + dealer.getDealerHandValue());
+
+
         }
 
 

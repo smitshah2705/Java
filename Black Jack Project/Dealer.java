@@ -71,6 +71,12 @@ public class Dealer
                     dealerCards.clear();
                 CurrentCard.resetCard();
                 DealerHandValue = 0;
-    }
+
+                }
+
+                public int getDealerHandValue()
+                {
+                    return DealerHandValue;
+                }
 
 }
