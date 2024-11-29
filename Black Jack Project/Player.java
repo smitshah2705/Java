@@ -87,17 +87,6 @@ public class Player {
         CurrentCard.addCard(card);
     }
 
-    public void placeBet(int amount)
-    {
-        if (amount > TotalChips)
-        {
-            System.err.println("You don't have enough money");
-            return;
-        }
-        TotalChips -= amount;
-        CurrentChips = amount;
-    }
-
     public void PlayerclearHands()
     {
         playerCards.clear();
@@ -110,7 +99,7 @@ public class Player {
         Stand = status;
     }
 
-    public void winBet()
+    public void winBet(int CurrentChips)
     {
         if(PlayerHandValue == 21)
         {
@@ -121,7 +110,7 @@ public class Player {
         }
     }
 
-    public void loseBet()
+    public void loseBet(int CurrentChips)
     {
         if (TotalChips - CurrentChips <= 0)
         {

@@ -46,7 +46,6 @@ public class MainGameEngine {
             Player2.hit();
 
             dealer.Playcard();
-            dealer.Playcard();
 
             System.out.println("");
             System.out.println(player1Name + " how much do you want to bet?");
@@ -80,7 +79,7 @@ public class MainGameEngine {
             {
                 System.out.println("");
                 System.out.println(player1Name + "'s Turn.");
-                System.out.println("Current Bet: " + player1bet);
+                System.out.println("Current Bet: " + player1bet + " and Total Chip: " + Player1.getTotalChip());
                 System.out.println(player1Name + "'s cards are " + Player1.playerCards + ".");
                 System.out.println("Hand Value: " + Player1.getPlayerHandValue());
                 System.out.println("Do you want to stand? Return true or false");
@@ -90,6 +89,15 @@ public class MainGameEngine {
                 if(Player1.getStand() == false)
                 {
                     Player1.hit();
+                    if (Player1.getPlayerHandValue() > 21)
+                    {
+                        System.out.println("");
+                        System.out.println("You have busted!");
+                        Player1.setStand(true);
+                        Player1.loseBet(player1bet);
+                        System.out.println("");
+                        System.out.println("Total Chip: " + Player1.getTotalChip());
+                    }
 
                 }
 
@@ -99,7 +107,7 @@ public class MainGameEngine {
             {
                 System.out.println("");
                 System.out.println(player2Name + "'s Turn.");
-                System.out.println("Current Bet: " + player2bet);
+                System.out.println("Current Bet: " + player2bet + " and Total Chip: " + Player2.getTotalChip());
                 System.out.println(player2Name + "'s cards are " + Player2.playerCards + ".");
                 System.out.println("Hand Value: " + Player2.getPlayerHandValue());
                 System.out.println("Do you want to stand? Return true or false");
@@ -109,8 +117,18 @@ public class MainGameEngine {
                 if(Player2.getStand() == false)
                 {
                     Player2.hit();
+                    if (Player2.getPlayerHandValue() > 21)
+                    {
+                        System.out.println("");
+                        System.out.println("You have busted!");
+                        Player2.setStand(true);
+                        Player2.loseBet(player1bet);
+                        System.out.println("");
+                        System.out.println("Total Chip: " + Player2.getTotalChip());
+                    }
 
                 }
+
 
             }
 
