@@ -7,7 +7,7 @@ public class Player {
     private int PlayerHandValue;
     private boolean Stand;
     private int TotalChips;
-    private int CurrentChips;
+    private boolean busted = false;
 
     public Player(String thisPlayerName, int thisTotalChips)
     {
@@ -16,7 +16,6 @@ public class Player {
         playerCards = new ArrayList<String>();
         PlayerHandValue = 0;
         Stand = false;
-        CurrentChips = 0;
 
     }
 
@@ -27,6 +26,16 @@ public class Player {
     public boolean getStand()
     {
         return Stand;
+    }
+
+    public boolean getBusted()
+    {
+        return busted;
+    }
+
+    public void setBusted(boolean status)
+    {
+        busted = status;
     }
 
     public int getPlayerHandValue()
@@ -85,6 +94,11 @@ public class Player {
     {
         playerCards.add(card);
         CurrentCard.addCard(card);
+    }
+
+    public String getName()
+    {
+        return PlayerName;
     }
 
     public void PlayerclearHands()

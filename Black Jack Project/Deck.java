@@ -21,31 +21,31 @@ public class Deck {
     }
 
     public static void shuffle()
-        {
-            Collections.shuffle(cards);
-        }
-    
-        static String Drawcard()
-        {
-            if(cards.isEmpty())
             {
-                return "No more cards left in the deck";
+                Collections.shuffle(cards);
             }
-            return cards.remove(0);
-        }
-    
-        public static void resetDeck()
-        {
-            cards.clear();
-            for (int i = 0;i < Suits.length;i++)
+        
+            static String Drawcard()
             {
-                for (int y = 0;y < Rank.length;y++)
+                if(cards.isEmpty())
                 {
-                    cards.add(Rank[y] + " of " + Suits[i]);
+                    return "No more cards left in the deck";
                 }
+                return cards.remove(0);
             }
-    
-            shuffle();
+        
+            public static void resetDeck()
+            {
+                cards.clear();
+                for (int i = 0;i < Suits.length;i++)
+                {
+                    for (int y = 0;y < Rank.length;y++)
+                    {
+                        cards.add(Rank[y] + " of " + Suits[i]);
+                    }
+                }
+        
+                shuffle();
         }
 
 }
