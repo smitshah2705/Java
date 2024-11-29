@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Player {
     private String PlayerName;
-    private ArrayList <String> playerCards;
+    ArrayList <String> playerCards;
     private int PlayerHandValue;
     private boolean Stand;
     private int TotalChips;
@@ -18,6 +18,20 @@ public class Player {
         Stand = false;
         CurrentChips = 0;
 
+    }
+
+    public int getTotalChip(){
+        return TotalChips;
+    }
+
+    public boolean getStand()
+    {
+        return Stand;
+    }
+
+    public int getPlayerHandValue()
+    {
+        return PlayerHandValue;
     }
 
     public String hit()
@@ -91,9 +105,9 @@ public class Player {
         PlayerHandValue = 0;
     }
 
-    public void stand()
+    public void setStand(boolean status)
     {
-        Stand = true;
+        Stand = status;
     }
 
     public void winBet()

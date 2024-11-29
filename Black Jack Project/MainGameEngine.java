@@ -9,6 +9,7 @@ public class MainGameEngine {
         CurrentCard CurrentCard = new CurrentCard();
 
         System.out.println("WELCOME to the game of BLACKJACK!");
+        System.out.println("");
         System.out.println("Player 1, please enter your name: ");
         String player1Name = scanner.nextLine();
         System.out.println("Player 1, please enter the amount of chips you will play with: ");
@@ -33,20 +34,85 @@ public class MainGameEngine {
         {
             Player1.PlayerclearHands();
             Player2.PlayerclearHands();
+            Player1.setStand(false);
+            Player2.setStand(false);
             Dealer.DealerclearHands();
             Deck.resetDeck();
 
-            String player1FirstInitial = Player1.hit();
-            String player1SecondInitial = Player1.hit();
+            Player1.hit();
+            Player1.hit();
             
-            String player2FirstInitial = Player2.hit();
-            String player2SecondInitial = Player2.hit();
+            Player2.hit();
+            Player2.hit();
 
-            String dealerFirstInitial = dealer.Playcard();
-            String dealerSecondInitial = dealer.Playcard();
+            dealer.Playcard();
+            dealer.Playcard();
 
-            System.out.println("Dealer's cards are " + dealerFirstInitial + " and " + dealerSecondInitial + ".");
+            System.out.println("");
+            System.out.println(player1Name + " how much do you want to bet?");
+            int player1bet = scanner.nextInt();
+            System.out.println("");
+            while(player1bet > Player2.getTotalChip())
+            {
+                System.out.println("You do not have enough money. Please enter an amount less than or equal to your total chips.");
+                player1bet = scanner.nextInt();
+                System.out.println("");
+                
+            }
+
+            System.out.println(player2Name + " how much do you want to bet?");
+            int player2bet = scanner.nextInt();
+            scanner.nextLine();
+            while(player1bet > Player1.getTotalChip())
+            {
+                System.out.println("You do not have enough money. Please enter an amount less than or equal to your total chips.");
+                player2bet = scanner.nextInt();
+                System.out.println("");
+                scanner.nextLine();
+            }
+
+            System.out.println("");
+            System.out.println("Dealer's cards are " + dealer.dealerCards +".");
             System.out.println("The dealer's hand value = " + dealer.getDealerHandValue());
+            System.out.println("");
+
+            while(Player1.getStand() == false)
+            {
+                System.out.println("");
+                System.out.println(player1Name + "'s Turn.");
+                System.out.println("Current Bet: " + player1bet);
+                System.out.println(player1Name + "'s cards are " + Player1.playerCards + ".");
+                System.out.println("Hand Value: " + Player1.getPlayerHandValue());
+                System.out.println("Do you want to stand? Return true or false");
+                boolean status = scanner.nextBoolean();
+                scanner.nextLine();
+                Player1.setStand(status);
+                if(Player1.getStand() == false)
+                {
+                    Player1.hit();
+
+                }
+
+            }
+
+            while(Player2.getStand() == false)
+            {
+                System.out.println("");
+                System.out.println(player2Name + "'s Turn.");
+                System.out.println("Current Bet: " + player2bet);
+                System.out.println(player2Name + "'s cards are " + Player2.playerCards + ".");
+                System.out.println("Hand Value: " + Player2.getPlayerHandValue());
+                System.out.println("Do you want to stand? Return true or false");
+                boolean status = scanner.nextBoolean();
+                scanner.nextLine();
+                Player2.setStand(status);
+                if(Player2.getStand() == false)
+                {
+                    Player2.hit();
+
+                }
+
+            }
 
 
         }

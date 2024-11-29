@@ -39,14 +39,13 @@ public class Deck {
             cards.clear();
             for (int i = 0;i < Suits.length;i++)
             {
-                for (int y = 0;i < Rank.length;y++)
+                for (int y = 0;y < Rank.length;y++)
                 {
                     cards.add(Rank[y] + " of " + Suits[i]);
                 }
             }
     
             shuffle();
-    }
-
+        }
 
 }
