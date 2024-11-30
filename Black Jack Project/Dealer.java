@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Dealer
 {
-    static ArrayList <String> dealerCards;
-                private static int DealerHandValue;
-                private static int aceCount11;
+    static ArrayList <String> dealerCards; 
+                private static int DealerHandValue; 
+                private static int aceCount11; // keeps counts of the aces that are valued at 11 and could potentially be changed to a 1
                                     
                                         public Dealer()
                                         {
@@ -15,6 +15,8 @@ public class Dealer
                                             aceCount11 = 0;
                                         }
                                     
+                                        // In this method a card is drawn from the Deck and added to the dealers card. 
+                                        //Then it is evaluated and the corresponding value of the card is added to the Dealer's total hand value
                                         public String Playcard()
                                         {
                                             String card = Deck.Drawcard();
@@ -55,6 +57,9 @@ public class Dealer
                                             {
                                                 DealerHandValue += 2;
                                             }
+                                            //If an Ace is drawn it is first checks if the ace is added with a value of 11, will the dealer bust?
+                                            // If yes than the value of the ace is changed to 1
+                                            //If no then the value of Ace stays as 11 and the variable aceCount11 is incremented (Explaination below)
                                             else if(card.contains("Ace"))
                                             {
                                                 if (DealerHandValue + 11 > 21 ) {
@@ -77,17 +82,20 @@ public class Dealer
                                         public static void DealerclearHands()
                                         {
                                             dealerCards.clear();
-                                    CurrentCard.resetCard();
-                                    DealerHandValue = 0;
-                                    aceCount11 = 0;
+                                        CurrentCard.resetCard();
+                                        DealerHandValue = 0;
+                                        aceCount11 = 0;
 
-                }
+                                        }   
 
                 public int getDealerHandValue()
                 {
                     return DealerHandValue;
                 }
 
+                //This method is used to adject the vakue of the ace as the dealer continues to hit
+                // The aceCount11 keeps counts of the aces that are valued at 11 and could potentially be changed to a 1
+                // So a while loop is used to chnage the values of the aces to 11 until the Dealer hand value < 21 or there are no more aces valued at 11 
                 public void aceCalculate(){
                     while(DealerHandValue > 21 && aceCount11 > 0){
                         DealerHandValue -= 10;

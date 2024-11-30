@@ -9,9 +9,10 @@ public class CurrentCard
         {
             currentCards = new ArrayList<String>();
         }
-    
+        
         public static void addCard(String card)
         {
+
             currentCards.add(card);
         }
     
