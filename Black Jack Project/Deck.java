@@ -25,7 +25,7 @@ public class Deck {
                 Collections.shuffle(cards);
             }
         
-            static String Drawcard()
+             public static String Drawcard()
             {
                 if(cards.isEmpty())
                 {
@@ -46,6 +46,5 @@ public class Deck {
                 }
         
                 shuffle();
-        }
-
+            }
 }

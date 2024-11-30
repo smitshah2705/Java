@@ -8,6 +8,7 @@ public class Player {
     private boolean Stand;
     private int TotalChips;
     private boolean busted = false;
+    private int aceCount11 = 0;
 
     public Player(String thisPlayerName, int thisTotalChips)
     {
@@ -16,11 +17,17 @@ public class Player {
         playerCards = new ArrayList<String>();
         PlayerHandValue = 0;
         Stand = false;
+        aceCount11 = 0;
 
     }
 
     public int getTotalChip(){
         return TotalChips;
+    }
+
+    public void setTotalChip(int bet)
+    {
+        TotalChips -= bet;
     }
 
     public boolean getStand()
@@ -85,7 +92,13 @@ public class Player {
         }
         else if(card.contains("Ace"))
         {
-            PlayerHandValue += 11;
+            if (PlayerHandValue + 11 > 21 ) {
+                PlayerHandValue += 1; // Convert Ace value from 11 to 1
+            }
+            else{
+                PlayerHandValue += 11;
+                aceCount11 ++;
+            }
         }
         return card;
     }
@@ -106,6 +119,7 @@ public class Player {
         playerCards.clear();
         CurrentCard.resetCard();
         PlayerHandValue = 0;
+        aceCount11 = 0;
     }
 
     public void setStand(boolean status)
@@ -126,16 +140,15 @@ public class Player {
 
     public void loseBet(int CurrentChips)
     {
-        if (TotalChips - CurrentChips <= 0)
-        {
-            System.out.println("You are Bankrupt. You lose!");
-        }
-        else
-        {
-            TotalChips -= CurrentChips;
-        }
+        TotalChips -= CurrentChips;
     }
 
+    public void aceCalculate(){
+        while(PlayerHandValue > 21 && aceCount11 > 0){
+            PlayerHandValue -= 10;
+            aceCount11 --;
+        }
+    }
 
     
 
