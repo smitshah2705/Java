@@ -35,27 +35,31 @@ public class Client {
     }
 
     private static void interactWithServer() {
-        try {
-            Scanner inputScanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)) { // Ensure scanner is properly closed
             String serverMessage;
 
-            // Receive and display initial welcome message from the server
-            serverMessage = serverIn.readLine();
-            System.out.println(serverMessage);
-
-            // Continue communication as long as the game is not over
+            // Loop to interact with the server, continuously read and process messages sent by the server
             while ((serverMessage = serverIn.readLine()) != null) {
                 System.out.println(serverMessage);
 
-                // Read the player's input and send it to the server
-                String playerInput = inputScanner.nextLine();
-                serverOut.println(playerInput);
-
-                // Exit condition: If the server sends "GAME OVER", stop
-                if (serverMessage.contains("GAME OVER")) {
+                // If the server sends "GAME OVER" or contains " discontinued", stop
+                if (serverMessage.contains("GAME OVER") || serverMessage.contains("dicontinued") ) {
                     break;
                 }
+
+                // Handle user input for bets or other actions
+                if (serverMessage.toLowerCase().contains("enter your bet")) {
+                    System.out.print("Enter your bet: ");
+                    int bet = scanner.nextInt();
+                    scanner.nextLine(); // Clear the newline character
+                    serverOut.println(bet);
+                } else {
+                    System.out.print("> "); // General input prompt
+                    String userInput = scanner.nextLine();
+                    serverOut.println(userInput);
+                }
             }
+
 
             // Close the connection once the game ends
             clientSocket.close();
