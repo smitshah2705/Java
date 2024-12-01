@@ -19,8 +19,6 @@ public class Client {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             scanner = new Scanner(System.in);
 
-            // Start the game
-            System.out.println("Welcome to Blackjack!");
 
             // Receive welcome message from server
             String message = in.readLine();
@@ -72,27 +70,22 @@ public class Client {
     }
 
     private static String promptForName() {
-        System.out.print("Enter your name: ");
         return scanner.nextLine();
     }
 
     private static int promptForChips() {
-        System.out.print("Enter your starting chips amount: ");
         return scanner.nextInt();
     }
 
     private static int promptForBet() {
-        System.out.print("How much do you want to bet? ");
         return scanner.nextInt();
     }
 
     private static boolean promptForAction() {
-        System.out.print("Do you want to hit? (true/false): ");
         return scanner.nextBoolean();
     }
 
     private static String promptToContinue() {
-        System.out.print("Do you want to continue? (yes/no): ");
         return scanner.next();
     }
 }
