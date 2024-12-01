@@ -1,75 +1,98 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 import java.util.Scanner;
 
 public class Client {
-    // Will allow the player to interact with the server
-    //This is from the player side.
-    private static final String SERVER_HOST = "localhost";  // Server address (localhost for local testing)
-    private static final int SERVER_PORT = 12345;  // Server port number
-    private static Socket clientSocket;  // Socket to connect to the server
-    private static PrintWriter serverOut;  // send messages to the server
-    private static BufferedReader serverIn;  // receive messages from the server
+    private static final String SERVER_ADDRESS = "localhost"; // Server address (can be IP or "localhost" if running locally)
+    private static final int PORT = 12345; // Server's port
+
+    private static Socket socket;
+    private static PrintWriter out;
+    private static BufferedReader in;
+    private static Scanner scanner;
 
     public static void main(String[] args) {
         try {
             // Connect to the server
-            clientSocket = new Socket(SERVER_HOST, SERVER_PORT);
-            System.out.println("Connected to the server.");
+            socket = new Socket(SERVER_ADDRESS, PORT);
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            scanner = new Scanner(System.in);
 
-            // Create input and output streams for communication
-            serverOut = new PrintWriter(clientSocket.getOutputStream(), true);
-            serverIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            // Start the game
+            System.out.println("Welcome to Blackjack!");
 
-            // Start communication with the server
-            interactWithServer();
+            // Receive welcome message from server
+            String message = in.readLine();
+            System.out.println(message);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            // Handle player information and interaction
+            String name = promptForName();
+            int totalChips = promptForChips();
 
-        
-    }
+            out.println(name); // Send player name
+            out.println(totalChips); // Send player chips
 
-    private static void interactWithServer() {
-        try (Scanner scanner = new Scanner(System.in)) { // Ensure scanner is properly closed
-            String serverMessage;
+            // Handle the rounds of the game
+            while (true) {
+                message = in.readLine();
+                System.out.println(message); // Receive and display server messages
 
-            // Loop to interact with the server, continuously read and process messages sent by the server
-            while ((serverMessage = serverIn.readLine()) != null) {
-                System.out.println(serverMessage);
-
-                // If the server sends "GAME OVER" or contains " discontinued", stop
-                if (serverMessage.contains("GAME OVER") || serverMessage.contains("dicontinued") ) {
-                    break;
+                if (message.contains("how much do you want to bet?")) {
+                    int bet = promptForBet();
+                    out.println(bet); // Send bet to server
                 }
 
-                // Handle user input for bets or other actions
-                if (serverMessage.toLowerCase().contains("enter your bet")) {
-                    System.out.print("Enter your bet: ");
-                    int bet = scanner.nextInt();
-                    scanner.nextLine(); // Clear the newline character
-                    serverOut.println(bet);
-                } else {
-                    System.out.print("> "); // General input prompt
-                    String userInput = scanner.nextLine();
-                    serverOut.println(userInput);
+                message = in.readLine();
+                System.out.println(message); // Display cards and hand value
+
+                if (message.contains("Do you want to hit?")) {
+                    boolean hit = promptForAction();
+                    out.println(hit); // Send action (true = hit, false = stand)
                 }
+
+                // Wait for dealer's turn and results
+                message = in.readLine();
+                System.out.println(message);
+
+                if (message.contains("GAME OVER")) {
+                    break; // End game if it's over
+                }
+
+                String continueGame = promptToContinue();
+                out.println(continueGame); // Send response to continue or not
             }
 
-
-            // Close the connection once the game ends
-            clientSocket.close();
-            System.out.println("Disconnected from the server.");
-
+            // Close the connection
+            socket.close();
+            System.out.println("Game Over. Goodbye!");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    private static String promptForName() {
+        System.out.print("Enter your name: ");
+        return scanner.nextLine();
+    }
+
+    private static int promptForChips() {
+        System.out.print("Enter your starting chips amount: ");
+        return scanner.nextInt();
+    }
+
+    private static int promptForBet() {
+        System.out.print("How much do you want to bet? ");
+        return scanner.nextInt();
+    }
+
+    private static boolean promptForAction() {
+        System.out.print("Do you want to hit? (true/false): ");
+        return scanner.nextBoolean();
+    }
+
+    private static String promptToContinue() {
+        System.out.print("Do you want to continue? (yes/no): ");
+        return scanner.next();
+    }
 }
-
-
-
