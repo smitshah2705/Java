@@ -73,6 +73,66 @@ public class MainGameEngine {
     }
     
 }
+
+    private static void Playerturn(Player player, String playerName, int playerBet  )
+{
+    Scanner scanner = new Scanner(System.in);
+    while(player.getStand() == false)
+    {
+        System.out.println("");
+        System.out.println(playerName + "'s Turn.");
+        System.out.println("Current Bet: " + playerBet + " and Total Chip: " + player.getTotalChip());
+        System.out.println(playerName + "'s cards are " + player.playerCards + ".");
+        System.out.println("Hand Value: " + player.getPlayerHandValue());
+        System.out.println("Do you want to hit? Return true or false");
+        boolean status = scanner.nextBoolean();
+        scanner.nextLine();
+        player.setStand(!status); // Checks if Player stand or hit
+        if(player.getStand() == false)
+        {
+            player.hit();
+            player.aceCalculate(); // manages the value of aces
+            System.out.println(playerName + "'s cards are " + player.playerCards + ".");
+            System.out.println("Hand Value: " + player.getPlayerHandValue());
+
+            if (player.getPlayerHandValue() > 21)
+            {
+                System.out.println("");
+                System.out.println(playerName + ", you have busted! and lost the round.");
+                player.setBusted(true); // Manages if the players has busted
+                player.setStand(true); // End player loop
+                System.out.println("");
+                System.out.println(playerName + " has lost the bet! Total chips now: " + player.getTotalChip());
+            }
+
+        }
+
+
+    }
+}
+
+    private static void Dealerturn(Dealer dealer)
+{
+    while (dealer.getDealerHandValue() < 17)
+    {
+        dealer.Playcard();
+        dealer.aceCalculate();
+        System.out.println("Dealer hits!");
+        System.out.println("Dealer's cards are " + Dealer.dealerCards +".");
+        System.out.println("The dealer's hand value = " + dealer.getDealerHandValue());
+        System.out.println("");
+    }
+
+    if(dealer.getDealerHandValue() > 21)
+    {
+        System.out.println("Dealer has busted!");
+        System.out.println("");
+    }
+    else{
+        System.out.println("Dealer stands with his current hands !");
+        System.out.println("");
+    }
+}
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -160,68 +220,12 @@ public class MainGameEngine {
             System.out.println("");
 
             // Player 1's turn
-            while(Player1.getStand() == false)
-            {
-                System.out.println("");
-                System.out.println(player1Name + "'s Turn.");
-                System.out.println("Current Bet: " + player1bet + " and Total Chip: " + Player1.getTotalChip());
-                System.out.println(player1Name + "'s cards are " + Player1.playerCards + ".");
-                System.out.println("Hand Value: " + Player1.getPlayerHandValue());
-                System.out.println(player1Name + " do you want to hit? Return true or false");
-                boolean status = scanner.nextBoolean();
-                scanner.nextLine();
-                Player1.setStand(!status); // Checks if Player stand or hit
-                if(Player1.getStand() == false)
-                {
-                    Player1.hit();
-                    Player1.aceCalculate(); // manages the value of aces
-                    if (Player1.getPlayerHandValue() > 21) // Manages if the players has busted
-                    {
-                        System.out.println("");
-                        System.out.println(player1Name + ", you have busted! and the lost the round");
-                        Player1.setBusted(true); 
-                        Player1.setStand(true); // End player loop
-                        System.out.println("");
-                        System.out.println(player1Name + " has lost the bet! Total chips now: " + Player1.getTotalChip());
-                    }
-
-                }
-
-            }
+            Playerturn(Player1, player1Name, player1bet);
 
             // Player 2's turn
-            while(Player2.getStand() == false)
-            {
-                System.out.println("");
-                System.out.println(player2Name + "'s Turn.");
-                System.out.println("Current Bet: " + player2bet + " and Total Chip: " + Player2.getTotalChip());
-                System.out.println(player2Name + "'s cards are " + Player2.playerCards + ".");
-                System.out.println("Hand Value: " + Player2.getPlayerHandValue());
-                System.out.println("Do you want to hit? Return true or false");
-                boolean status = scanner.nextBoolean();
-                scanner.nextLine();
-                Player2.setStand(!status); // Checks if Player stand or hit
-                if(Player2.getStand() == false)
-                {
-                    Player2.hit();
-                    Player2.aceCalculate(); // manages the value of aces
-                    System.out.println(player2Name + "'s cards are " + Player2.playerCards + ".");
-                    System.out.println("Hand Value: " + Player2.getPlayerHandValue());
+            Playerturn(Player2, player2Name, player2bet);
 
-                    if (Player2.getPlayerHandValue() > 21)
-                    {
-                        System.out.println("");
-                        System.out.println(player2Name + ", you have busted! and lost the round.");
-                        Player2.setBusted(true); // Manages if the players has busted
-                        Player2.setStand(true); // End player loop
-                        System.out.println("");
-                        System.out.println(player2Name + " has lost the bet! Total chips now: " + Player2.getTotalChip());
-                    }
-
-                }
-
-
-            }
+            
             // Shows the dealers first card again
             System.out.println("");
             System.out.println("Dealer's cards are " + Dealer.dealerCards +".");
@@ -229,25 +233,7 @@ public class MainGameEngine {
             System.out.println("");
             
             // Dealer's turn
-            while (dealer.getDealerHandValue() < 17)
-            {
-                dealer.Playcard();
-                dealer.aceCalculate();
-                System.out.println("Dealer hits!");
-                System.out.println("Dealer's cards are " + Dealer.dealerCards +".");
-                System.out.println("The dealer's hand value = " + dealer.getDealerHandValue());
-                System.out.println("");
-            }
-
-            if(dealer.getDealerHandValue() > 21)
-            {
-                System.out.println("Dealer has busted!");
-                System.out.println("");
-            }
-            else{
-                System.out.println("Dealer stands with his current hands !");
-                System.out.println("");
-            }
+            Dealerturn(dealer);
 
             resultscalculator(Player1, player1bet, Player2, player2bet, dealer); // Calculates Results
 
