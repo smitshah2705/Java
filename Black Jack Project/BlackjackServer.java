@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class BlackjackServer {
     private static final int PORT = 12345; // Defines a constant PORT that specifies the port number on which the server will listen for the players
     private static ServerSocket serverSocket; // Provides function for the server to accept player request to join
-    private static Socket player1Socket, player2Socket; // 
+    private static Socket player1Socket, player2Socket; // Socket objects that represent the connection between the player and the server
     private static PrintWriter out1, out2; // Sending output messages to the 2 players
     private static BufferedReader in1, in2; // Recieving input messages for the 2 players
 
@@ -15,29 +15,43 @@ public class BlackjackServer {
         Scanner scanner = new Scanner(System.in);
         while(player.getStand() == false)
         {
-            System.out.println("");
-            System.out.println(playerName + "'s Turn.");
-            System.out.println("Current Bet: " + playerBet + " and Total Chip: " + player.getTotalChip());
-            System.out.println(playerName + "'s cards are " + player.playerCards + ".");
-            System.out.println("Hand Value: " + player.getPlayerHandValue());
-            System.out.println("Do you want to hit? Return true or false");
+            out1.println("");
+            out2.println("");
+            out1.println(playerName + "'s Turn.");
+            out2.println(playerName + "'s Turn.");
+            out1.println("Current Bet: " + playerBet + " and Total Chip: " + player.getTotalChip());
+            out1.println(playerName + "'s cards are " + player.playerCards + ".");
+            out1.println("Hand Value: " + player.getPlayerHandValue());
+            out1.println("Do you want to hit? Return true or false");
+
+            out2.println("Current Bet: " + playerBet + " and Total Chip: " + player.getTotalChip());
+            out2.println(playerName + "'s cards are " + player.playerCards + ".");
+            out2.println("Hand Value: " + player.getPlayerHandValue());
+            out2.println("Do you want to hit? Return true or false");
             boolean status = scanner.nextBoolean();
             player.setStand(!status); // Checks if Player stand or hit
             if(player.getStand() == false)
             {
                 player.hit();
                 player.aceCalculate(); // manages the value of aces
-                System.out.println(playerName + "'s cards are " + player.playerCards + ".");
-                System.out.println("Hand Value: " + player.getPlayerHandValue());
+                out1.println(playerName + "'s cards are " + player.playerCards + ".");
+                out1.println("Hand Value: " + player.getPlayerHandValue());
+
+                out2.println(playerName + "'s cards are " + player.playerCards + ".");
+                out2.println("Hand Value: " + player.getPlayerHandValue());
     
                 if (player.getPlayerHandValue() > 21)
                 {
-                    System.out.println("");
-                    System.out.println(playerName + ", you have busted! and lost the round.");
+                    out1.println("");
+                    out1.println(playerName + ", you have busted! and lost the round.");
+                    out2.println("");
+                    out2.println(playerName + ", you have busted! and lost the round.");
                     player.setBusted(true); // Manages if the players has busted
                     player.setStand(true); // End player loop
-                    System.out.println("");
-                    System.out.println(playerName + " has lost the bet! Total chips now: " + player.getTotalChip());
+                    out1.println("");
+                    out1.println(playerName + " has lost the bet! Total chips now: " + player.getTotalChip());
+                    out2.println("");
+                    out2.println(playerName + " has lost the bet! Total chips now: " + player.getTotalChip());
                 }
             }
         }
@@ -46,15 +60,18 @@ public class BlackjackServer {
     // Calculates the results for both the players after both have finished their turns
     private static void resultscalculator(Player Player1, int player1bet, Player Player2, int player2bet, Dealer dealer)
 {
-   System.out.println("-----RESULTS-----");
+   out1.println("-----RESULTS-----");
+   out2.println("-----RESULTS-----");
     if(Player1.getBusted() == true) //Checks if Player 1 busted
     {
-        System.out.println(Player1.getName() + " loses against the dealer! Total Chips now: " + Player1.getTotalChip());
+        out1.println(Player1.getName() + " loses against the dealer! Total Chips now: " + Player1.getTotalChip());
+        out2.println(Player1.getName() + " loses against the dealer! Total Chips now: " + Player1.getTotalChip());
     }
 
     if(Player2.getBusted() == true) //Checks if Player 2 busted
     {
-        System.out.println(Player2.getName() + " loses against the dealer! Total Chips now: " + Player2.getTotalChip());
+        out1.println(Player2.getName() + " loses against the dealer! Total Chips now: " + Player2.getTotalChip());
+        out2.println(Player2.getName() + " loses against the dealer! Total Chips now: " + Player2.getTotalChip());
     }
    
    if (dealer.getDealerHandValue() > 21) // Checks if dealer busted
@@ -62,13 +79,14 @@ public class BlackjackServer {
         if (Player1.getBusted() == false) // If player 1 didnt bust then they win
         {
             Player1.winBet(player1bet);
-            System.out.println(Player1.getName() + " wins against the dealer! Total Chips now: " + Player1.getTotalChip());
-
+            out1.println(Player1.getName() + " wins against the dealer! Total Chips now: " + Player1.getTotalChip());
+            out2.println(Player1.getName() + " wins against the dealer! Total Chips now: " + Player1.getTotalChip());
         }
         if(Player2.getBusted() == false) // If player2 didnt bust they win
         {
             Player2.winBet(player2bet);
-            System.out.println(Player2.getName() + " wins against the dealer! Total Chips now: " + Player2.getTotalChip());
+            out1.println(Player2.getName() + " wins against the dealer! Total Chips now: " + Player2.getTotalChip());
+            out2.println(Player2.getName() + " wins against the dealer! Total Chips now: " + Player2.getTotalChip());
         }
     }
 
@@ -79,17 +97,20 @@ public class BlackjackServer {
             if(Player1.getPlayerHandValue() > dealer.getDealerHandValue())
             {
                 Player1.winBet(player1bet);
-                System.out.println(Player1.getName() + " wins against the dealer! Total Chips now: " + Player1.getTotalChip());
+                out1.println(Player1.getName() + " wins against the dealer! Total Chips now: " + Player1.getTotalChip());
+                out2.println(Player1.getName() + " wins against the dealer! Total Chips now: " + Player1.getTotalChip());
             }
 
             if(Player1.getPlayerHandValue() == dealer.getDealerHandValue())
             {
-                System.out.println(Player1.getName() + " draws against the dealer! Total Chips now: " + Player1.getTotalChip());
+                out1.println(Player1.getName() + " draws against the dealer! Total Chips now: " + Player1.getTotalChip());
+                out2.println(Player1.getName() + " draws against the dealer! Total Chips now: " + Player1.getTotalChip());
             }
 
             if(Player1.getPlayerHandValue() < dealer.getDealerHandValue())
             {
-                System.out.println(Player1.getName() + " loses against the dealer! Total Chips now: " + Player1.getTotalChip());
+                out1.println(Player1.getName() + " loses against the dealer! Total Chips now: " + Player1.getTotalChip());
+                out2.println(Player1.getName() + " loses against the dealer! Total Chips now: " + Player1.getTotalChip());
             }
         }
 
@@ -98,17 +119,20 @@ public class BlackjackServer {
             if(Player2.getPlayerHandValue() > dealer.getDealerHandValue())
             {
                 Player2.winBet(player2bet);
-                System.out.println(Player2.getName() + " wins against the dealer! Total Chips now: " + Player2.getTotalChip());
+                out1.println(Player2.getName() + " wins against the dealer! Total Chips now: " + Player2.getTotalChip());
+                out2.println(Player2.getName() + " wins against the dealer! Total Chips now: " + Player2.getTotalChip());
             }
 
             if(Player2.getPlayerHandValue() == dealer.getDealerHandValue())
             {
-                System.out.println(Player2.getName() + " draws against the dealer! Total Chips now: " + Player2.getTotalChip());
+                out1.println(Player2.getName() + " draws against the dealer! Total Chips now: " + Player2.getTotalChip());
+                out2.println(Player2.getName() + " draws against the dealer! Total Chips now: " + Player2.getTotalChip());
             }
 
             if(Player2.getPlayerHandValue() < dealer.getDealerHandValue())
             {
-                System.out.println(Player2.getName() + " loses against the dealer! Total Chips now: " + Player2.getTotalChip());
+                out1.println(Player2.getName() + " loses against the dealer! Total Chips now: " + Player2.getTotalChip());
+                out2.println(Player2.getName() + " loses against the dealer! Total Chips now: " + Player2.getTotalChip());
             }
         }
     }
@@ -121,20 +145,31 @@ public class BlackjackServer {
         {
             dealer.Playcard();
             dealer.aceCalculate();
-            System.out.println("Dealer hits!");
-            System.out.println("Dealer's cards are " + Dealer.dealerCards +".");
-            System.out.println("The dealer's hand value = " + dealer.getDealerHandValue());
-            System.out.println("");
+            out1.println("Dealer hits!");
+            out1.println("Dealer's cards are " + Dealer.dealerCards +".");
+            out1.println("The dealer's hand value = " + dealer.getDealerHandValue());
+            out1.println("");
+
+            out2.println("Dealer hits!");
+            out2.println("Dealer's cards are " + Dealer.dealerCards +".");
+            out2.println("The dealer's hand value = " + dealer.getDealerHandValue());
+            out2.println("");
         }
 
         if(dealer.getDealerHandValue() > 21)
         {
-            System.out.println("Dealer has busted!");
-            System.out.println("");
+            out1.println("Dealer has busted!");
+            out1.println("");
+
+            out2.println("Dealer has busted!");
+            out2.println("");
         }
         else{
-            System.out.println("Dealer stands with his current hands !");
-            System.out.println("");
+            out1.println("Dealer stands with his current hands !");
+            out1.println("");
+
+            out2.println("Dealer stands with his current hands !");
+            out2.println("");
         }
     }
 public static void main(String[] args) {
@@ -165,6 +200,9 @@ public static void main(String[] args) {
     private static void startGame() {
         try {
             Scanner scanner = new Scanner(System.in);
+            Deck deck = new Deck();
+            Deck.shuffle();
+            CurrentCard currentCard = new CurrentCard();
 
             out1.println("Welcome to BLACKJACK");
             out2.println("Welcome to BLACKJACK");
@@ -182,7 +220,7 @@ public static void main(String[] args) {
             int player2TotalChips = Integer.parseInt(in2.readLine());
 
             out1.println("Welcome " + player1Name + "!" + " You have been dealt your cards.");
-            out1.println("Welcome " + player2Name + "!" + " You have been dealt your cards.");
+            out2.println("Welcome " + player2Name + "!" + " You have been dealt your cards.");
 
             // Initialise. Create objects for Player1, Player2 and dealer
             Player Player1 = new Player(player1Name, player1TotalChips);
@@ -222,6 +260,15 @@ public static void main(String[] args) {
                     
                 }
                 Player1.loseBet(player1bet); 
+
+                // Dealer initial card is shown for Player 1
+                out1.println("");
+                out1.println("Dealer's cards are " + Dealer.dealerCards +".");
+                out1.println("The dealer's hand value = " + dealer.getDealerHandValue());
+                out1.println("");
+
+                // Player 1's turn
+                Playerturn(Player1, player1Name, player1bet);
                 
                 // Manage Player 2 betting
                 out2.println(player2Name + " how much do you want to bet?");
@@ -234,19 +281,11 @@ public static void main(String[] args) {
                 }
                 Player2.loseBet(player2bet);
 
-                // Dealer initial card is shown
-                out1.println("");
-                out1.println("Dealer's cards are " + Dealer.dealerCards +".");
-                out1.println("The dealer's hand value = " + dealer.getDealerHandValue());
-                out1.println("");
-
+                // Dealer initial card is shown for Player 2
                 out2.println("");
                 out2.println("Dealer's cards are " + Dealer.dealerCards +".");
                 out2.println("The dealer's hand value = " + dealer.getDealerHandValue());
                 out2.println("");
-
-                // Player 1's turn
-                Playerturn(Player1, player1Name, player1bet);
 
                 // Player 2's turn
                 Playerturn(Player2, player2Name, player2bet);
