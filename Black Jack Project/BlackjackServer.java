@@ -38,10 +38,6 @@ public class BlackjackServer {
             {
                 player1.hit();
                 player1.aceCalculate(); // manages the value of aces
-                out1.write(playerName1 + "'s cards are " + player1.playerCards + "\n");
-                out1.flush();
-                out1.write("Hand Value: " + player1.getPlayerHandValue());
-                out1.flush();
     
                 if (player1.getPlayerHandValue() > 21)
                 {
@@ -91,10 +87,6 @@ public class BlackjackServer {
             {
                 player2.hit();
                 player2.aceCalculate(); // manages the value of aces
-                out2.write(playerName2 + "'s cards are " + player2.playerCards + ".\n");
-                out2.flush();
-                out2.write("Hand Value: " + player2.getPlayerHandValue() + "\n");
-                out2.flush();
     
                 if (player2.getPlayerHandValue() > 21)
                 {

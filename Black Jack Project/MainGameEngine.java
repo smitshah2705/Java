@@ -92,8 +92,6 @@ public class MainGameEngine {
         {
             player.hit();
             player.aceCalculate(); // manages the value of aces
-            System.out.println(playerName + "'s cards are " + player.playerCards + ".");
-            System.out.println("Hand Value: " + player.getPlayerHandValue());
 
             if (player.getPlayerHandValue() > 21)
             {

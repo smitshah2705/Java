@@ -3,9 +3,10 @@ import java.net.*;
 import java.util.Scanner;
 
 public class Client {
-    private static final String SERVER_ADDRESS = "localhost"; // Address of the server
+    private static final String SERVER_ADDRESS = "localhost"; // Address of the server. 
+    //"Local host" = the client will connect to a server running on the same machine
     private static final int PORT = 12346; // Port to connect to the server
-    private static Socket socket; // The socket that connects to the server
+    private static Socket socket; // an obect of Socket is created that connects to the server
     private static BufferedReader in; // To read messages from the server
     private static BufferedWriter out; // To send messages to the server
     private static Scanner scanner; // For user input
