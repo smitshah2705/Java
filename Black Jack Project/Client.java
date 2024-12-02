@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Client {
     private static final String SERVER_ADDRESS = "localhost"; // Address of the server
-    private static final int PORT = 12345; // Port to connect to the server
+    private static final int PORT = 12346; // Port to connect to the server
     private static Socket socket; // The socket that connects to the server
     private static BufferedReader in; // To read messages from the server
     private static BufferedWriter out; // To send messages to the server

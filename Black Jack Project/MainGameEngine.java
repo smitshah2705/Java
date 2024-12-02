@@ -134,162 +134,162 @@ public class MainGameEngine {
     }
 }
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        //Initialize the deck, shuffle, and current card instances
-        Deck deck = new Deck();
-        Deck.shuffle();
-        CurrentCard currentCard = new CurrentCard();
-        
-        // Welcome message and player details input
-        System.out.println("WELCOME to the game of BLACKJACK!");
-        System.out.println("");
-        System.out.println("Player 1, please enter your name: ");
-        String player1Name = scanner.nextLine();
-        System.out.println("Player 1, please enter the amount of chips you will play with: ");
-        int player1TotalChips = scanner.nextInt();
-        scanner.nextLine();
-        
-        System.out.println("");
-
-        System.out.println("Player 2, please enter your name: ");
-        String player2Name = scanner.nextLine();
-        System.out.println("Player 2, please enter the amount of chips you will play with: ");
-        int player2TotalChips = scanner.nextInt();
-        scanner.nextLine();
-
-        // Create Player objects with the details from input
-        Player Player1 = new Player(player1Name, player1TotalChips);
-        Player Player2 = new Player(player2Name, player2TotalChips);
-        Dealer dealer = new Dealer();
-
-        // Flag that manages the game loop
-        boolean Continue = true;
-
-        while (Continue)
-        {
-            // Clear hands and reset hand values before each round
-            // Resets their Stand status
-            // Resets and shuffles deck
-            Player1.PlayerclearHands();
-            Player2.PlayerclearHands();
-            Player1.setStand(false);
-            Player2.setStand(false);
-            Dealer.DealerclearHands();
-            Deck.resetDeck();
+        try (Scanner scanner = new Scanner(System.in)) {
+            //Initialize the deck, shuffle, and current card instances
+            Deck deck = new Deck();
             Deck.shuffle();
-
-            // Deal initial cards to players and dealer
-            Player1.hit();
-            Player1.hit();
-            Player2.hit();
-            Player2.hit();
-            dealer.Playcard();
-
-            // Manage Player 1 betting
-            System.out.println("");
-            System.out.println(player1Name + " how much do you want to bet?");
-            int player1bet = scanner.nextInt();
-            System.out.println("");
-            while(player1bet > Player1.getTotalChip())
-            {
-                System.out.println(player1Name + ", you do not have enough money. Please enter an amount less than or equal to your total chips.");
-                player1bet = scanner.nextInt();
-                System.out.println("");
-                
-            }
-            Player1.loseBet(player1bet); 
+            CurrentCard currentCard = new CurrentCard();
             
-            // Manage Player 2 betting
-            System.out.println(player2Name + " how much do you want to bet?");
-            int player2bet = scanner.nextInt();
+            // Welcome message and player details input
+            System.out.println("WELCOME to the game of BLACKJACK!");
+            System.out.println("");
+            System.out.println("Player 1, please enter your name: ");
+            String player1Name = scanner.nextLine();
+            System.out.println("Player 1, please enter the amount of chips you will play with: ");
+            int player1TotalChips = scanner.nextInt();
             scanner.nextLine();
-            while(player2bet > Player2.getTotalChip())
-            {
-                System.out.println(player2Name + ", you do not have enough money. Please enter an amount less than or equal to your total chips.");
-                player2bet = scanner.nextInt();
-                System.out.println("");
-                scanner.nextLine();
-            }
-            Player2.loseBet(player2bet);
-
-            // Dealer initial card is shown
-            System.out.println("");
-            System.out.println("Dealer's cards are " + Dealer.dealerCards +".");
-            System.out.println("The dealer's hand value = " + dealer.getDealerHandValue());
-            System.out.println("");
-
-            // Player 1's turn
-            Playerturn(Player1, player1Name, player1bet);
-
-            // Player 2's turn
-            Playerturn(Player2, player2Name, player2bet);
-
             
-            // Shows the dealers first card again
             System.out.println("");
-            System.out.println("Dealer's cards are " + Dealer.dealerCards +".");
-            System.out.println("The dealer's hand value = " + dealer.getDealerHandValue());
-            System.out.println("");
-            
-            // Dealer's turn
-            Dealerturn(dealer);
 
-            resultscalculator(Player1, player1bet, Player2, player2bet, dealer); // Calculates Results
+            System.out.println("Player 2, please enter your name: ");
+            String player2Name = scanner.nextLine();
+            System.out.println("Player 2, please enter the amount of chips you will play with: ");
+            int player2TotalChips = scanner.nextInt();
+            scanner.nextLine();
 
-            if (Player1.getTotalChip() <= 0) // Checks if Player 1 has lost all his money
+            // Create Player objects with the details from input
+            Player Player1 = new Player(player1Name, player1TotalChips);
+            Player Player2 = new Player(player2Name, player2TotalChips);
+            Dealer dealer = new Dealer();
+
+            // Flag that manages the game loop
+            boolean Continue = true;
+
+            while (Continue)
             {
-                System.out.println("");
-                System.out.println("GAME OVER!");
-                System.out.println("");
-                System.out.println(player1Name + " has lost all his money!");
-                System.out.println(player2Name + " has won!");
-                Continue = false;
-            }
+                // Clear hands and reset hand values before each round
+                // Resets their Stand status
+                // Resets and shuffles deck
+                Player1.PlayerclearHands();
+                Player2.PlayerclearHands();
+                Player1.setStand(false);
+                Player2.setStand(false);
+                Dealer.DealerclearHands();
+                Deck.resetDeck();
+                Deck.shuffle();
 
-            if (Player2.getTotalChip() <= 0) // Checks if Player 2 has lost all his money
-            {
-                System.out.println("");
-                System.out.println("GAME OVER!");
-                System.out.println("");
-                System.out.println(player2Name + " has lost all his money!");
-                System.out.println(player1Name + " has won!");
-                Continue = false;
-            }
+                // Deal initial cards to players and dealer
+                Player1.hit();
+                Player1.hit();
+                Player2.hit();
+                Player2.hit();
+                dealer.Playcard();
 
-            // If no players have lost all their money then next ask each player if they wan to continue playing
-            if (Continue) {
+                // Manage Player 1 betting
                 System.out.println("");
-                System.out.println("The round is over.");
+                System.out.println(player1Name + " how much do you want to bet?");
+                int player1bet = scanner.nextInt();
                 System.out.println("");
-                System.out.println(player1Name + " do you want to continue? yes or no.");
-                String player1choice = scanner.nextLine();
-                System.out.println("");
-                System.out.println(player2Name + " do you want to continue? yes or no.");
-                String player2choice = scanner.nextLine();
+                while(player1bet > Player1.getTotalChip())
+                {
+                    System.out.println(player1Name + ", you do not have enough money. Please enter an amount less than or equal to your total chips.");
+                    player1bet = scanner.nextInt();
+                    System.out.println("");
+                    
+                }
+                Player1.loseBet(player1bet); 
                 
-                // If an of the players say no, then the player ends. If both say yes, then the next round begins
-                if (player1choice.equals("no"))
+                // Manage Player 2 betting
+                System.out.println(player2Name + " how much do you want to bet?");
+                int player2bet = scanner.nextInt();
+                scanner.nextLine();
+                while(player2bet > Player2.getTotalChip())
                 {
+                    System.out.println(player2Name + ", you do not have enough money. Please enter an amount less than or equal to your total chips.");
+                    player2bet = scanner.nextInt();
                     System.out.println("");
-                    System.out.println("GAME OVER!");
-                    System.out.println("");
-                    System.out.println(player1Name + " has dicontinued.");
-                    Continue = false;
-                    break;
+                    scanner.nextLine();
                 }
-    
-                if (player2choice.equals("no"))
-                {
-                    System.out.println("");
-                    System.out.println("GAME OVER!");
-                    System.out.println("");
-                    System.out.println(player2Name + " has dicontinued.");
-                    Continue = false;
-                }
-            }
-           
+                Player2.loseBet(player2bet);
 
+                // Dealer initial card is shown
+                System.out.println("");
+                System.out.println("Dealer's cards are " + Dealer.dealerCards +".");
+                System.out.println("The dealer's hand value = " + dealer.getDealerHandValue());
+                System.out.println("");
+
+                // Player 1's turn
+                Playerturn(Player1, player1Name, player1bet);
+
+                // Player 2's turn
+                Playerturn(Player2, player2Name, player2bet);
+
+                
+                // Shows the dealers first card again
+                System.out.println("");
+                System.out.println("Dealer's cards are " + Dealer.dealerCards +".");
+                System.out.println("The dealer's hand value = " + dealer.getDealerHandValue());
+                System.out.println("");
+                
+                // Dealer's turn
+                Dealerturn(dealer);
+
+                resultscalculator(Player1, player1bet, Player2, player2bet, dealer); // Calculates Results
+
+                if (Player1.getTotalChip() <= 0) // Checks if Player 1 has lost all his money
+                {
+                    System.out.println("");
+                    System.out.println("GAME OVER!");
+                    System.out.println("");
+                    System.out.println(player1Name + " has lost all his money!");
+                    System.out.println(player2Name + " has won!");
+                    Continue = false;
+                }
+
+                if (Player2.getTotalChip() <= 0) // Checks if Player 2 has lost all his money
+                {
+                    System.out.println("");
+                    System.out.println("GAME OVER!");
+                    System.out.println("");
+                    System.out.println(player2Name + " has lost all his money!");
+                    System.out.println(player1Name + " has won!");
+                    Continue = false;
+                }
+
+                // If no players have lost all their money then next ask each player if they wan to continue playing
+                if (Continue) {
+                    System.out.println("");
+                    System.out.println("The round is over.");
+                    System.out.println("");
+                    System.out.println(player1Name + " do you want to continue? yes or no.");
+                    String player1choice = scanner.nextLine();
+                    System.out.println("");
+                    System.out.println(player2Name + " do you want to continue? yes or no.");
+                    String player2choice = scanner.nextLine();
+                    
+                    // If an of the players say no, then the player ends. If both say yes, then the next round begins
+                    if (player1choice.equals("no"))
+                    {
+                        System.out.println("");
+                        System.out.println("GAME OVER!");
+                        System.out.println("");
+                        System.out.println(player1Name + " has dicontinued.");
+                        Continue = false;
+                        break;
+                    }
+   
+                    if (player2choice.equals("no"))
+                    {
+                        System.out.println("");
+                        System.out.println("GAME OVER!");
+                        System.out.println("");
+                        System.out.println(player2Name + " has dicontinued.");
+                        Continue = false;
+                    }
+                }
+               
+
+            }
         }
 
 
