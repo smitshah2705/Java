@@ -36,29 +36,29 @@ public class Client {
                 message = in.readLine();
                 System.out.println(message); // Receive and display server messages
 
-                if (message.contains("how much do you want to bet?")) {
-                    int bet = promptForBet();
-                    out.println(bet); // Send bet to server
-                }
+                // if (message.contains("how much do you want to bet?")) {
+                //     int bet = promptForBet();
+                //     out.println(bet); // Send bet to server
+                // }
 
-                message = in.readLine();
-                System.out.println(message); // Display cards and hand value
+                // // message = in.readLine();
+                // // System.out.println(message); // Display cards and hand value
 
-                if (message.contains("Do you want to hit?")) {
-                    boolean hit = promptForAction();
-                    out.println(hit); // Send action (true = hit, false = stand)
-                }
+                // if (message.contains("Do you want to hit?")) {
+                //     boolean hit = promptForAction();
+                //     out.println(hit); // Send action (true = hit, false = stand)
+                // }
 
-                // Wait for dealer's turn and results
-                message = in.readLine();
-                System.out.println(message);
+                // // Wait for dealer's turn and results
+                // // message = in.readLine();
+                // // System.out.println(message);
 
-                if (message.contains("GAME OVER")) {
-                    break; // End game if it's over
-                }
+                // if (message.contains("GAME OVER")) {
+                //     break; // End game if it's over
+                // }
 
-                String continueGame = promptToContinue();
-                out.println(continueGame); // Send response to continue or not
+                // String continueGame = promptToContinue();
+                // out.println(continueGame); // Send response to continue or not
             }
 
             // Close the connection
@@ -88,4 +88,6 @@ public class Client {
     private static String promptToContinue() {
         return scanner.next();
     }
+
+
 }

@@ -206,9 +206,11 @@ public static void main(String[] args) {
 
             out1.println("Welcome to BLACKJACK");
             out2.println("Welcome to BLACKJACK");
-
+            
             //Recieve Player 1 information
             out1.println("Please enter your name:");
+            System.out.println("HJKHJKHKJHKJ");
+            
             String player1Name = in1.readLine();
             out1.println("Please enter your starting chips amount:");
             int player1TotalChips = Integer.parseInt(in1.readLine());
