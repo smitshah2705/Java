@@ -3,91 +3,66 @@ import java.net.*;
 import java.util.Scanner;
 
 public class Client {
-    private static final String SERVER_ADDRESS = "localhost"; // Server address (can be IP or "localhost" if running locally)
-    private static final int PORT = 12345; // Server's port
-
-    private static Socket socket;
-    private static PrintWriter out;
-    private static BufferedReader in;
-    private static Scanner scanner;
+    private static final String SERVER_ADDRESS = "localhost"; // Address of the server
+    private static final int PORT = 12345; // Port to connect to the server
+    private static Socket socket; // The socket that connects to the server
+    private static BufferedReader in; // To read messages from the server
+    private static BufferedWriter out; // To send messages to the server
+    private static Scanner scanner; // For user input
 
     public static void main(String[] args) {
         try {
-            // Connect to the server
-            socket = new Socket(SERVER_ADDRESS, PORT);
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            scanner = new Scanner(System.in);
+            socket = new Socket(SERVER_ADDRESS, PORT); // Connect to the server
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream())); // For reading server messages
+            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())); // For sending messages to the server
+            scanner = new Scanner(System.in); // For getting user input
+            
+            // Read initial welcome messages and instructions from the server
+            String message;
+            while ((message = in.readLine()) != null) {
+                System.out.println(message);
+                
+                if (message.contains("Please enter your name:")) {
+                    String playerName = scanner.nextLine();
+                    out.write(playerName + "\n");
+                    out.flush();
+                }
 
+                if (message.contains("Please enter your starting chips amount:")) {
+                    int startingChips = Integer.parseInt(scanner.nextLine());
+                    out.write(startingChips + "\n");
+                    out.flush();
+                }
 
-            // Receive welcome message from server
-            String message = in.readLine();
-            System.out.println(message);
+                if (message.contains("how much do you want to bet?")) {
+                    int betAmount = Integer.parseInt(scanner.nextLine());
+                    out.write(betAmount + "\n");
+                    out.flush();
+                }
 
-            // Handle player information and interaction
-            String name = promptForName();
-            int totalChips = promptForChips();
+                if (message.contains("Do you want to hit? Return true or false")) {
+                    boolean hit = Boolean.parseBoolean(scanner.nextLine());
+                    out.write(hit + "\n");
+                    out.flush();
+                }
 
-            out.println(name); // Send player name
-            out.println(totalChips); // Send player chips
-
-            // Handle the rounds of the game
-            while (true) {
-                message = in.readLine();
-                System.out.println(message); // Receive and display server messages
-
-                // if (message.contains("how much do you want to bet?")) {
-                //     int bet = promptForBet();
-                //     out.println(bet); // Send bet to server
-                // }
-
-                // // message = in.readLine();
-                // // System.out.println(message); // Display cards and hand value
-
-                // if (message.contains("Do you want to hit?")) {
-                //     boolean hit = promptForAction();
-                //     out.println(hit); // Send action (true = hit, false = stand)
-                // }
-
-                // // Wait for dealer's turn and results
-                // // message = in.readLine();
-                // // System.out.println(message);
-
-                // if (message.contains("GAME OVER")) {
-                //     break; // End game if it's over
-                // }
-
-                // String continueGame = promptToContinue();
-                // out.println(continueGame); // Send response to continue or not
+                if (message.contains("do you want to continue? yes or no")) {
+                    String choice = scanner.nextLine();
+                    out.write(choice + "\n");
+                    out.flush();
+                    if (choice.equals("no")) {
+                        break;
+                    }
+                }
             }
 
-            // Close the connection
+            // Close the socket and input/output streams
             socket.close();
-            System.out.println("Game Over. Goodbye!");
+            in.close();
+            out.close();
+            scanner.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    private static String promptForName() {
-        return scanner.nextLine();
-    }
-
-    private static int promptForChips() {
-        return scanner.nextInt();
-    }
-
-    private static int promptForBet() {
-        return scanner.nextInt();
-    }
-
-    private static boolean promptForAction() {
-        return scanner.nextBoolean();
-    }
-
-    private static String promptToContinue() {
-        return scanner.next();
-    }
-
-
 }
