@@ -97,7 +97,7 @@ public class Dealer
                 // The aceCount11 keeps counts of the aces that are valued at 11 and could potentially be changed to a 1
                 // So a while loop is used to chnage the values of the aces to 11 until the Dealer hand value < 21 or there are no more aces valued at 11 
                 public void aceCalculate(){
-                    while(DealerHandValue > 21 && aceCount11 > 0){
+                    while(DealerHandValue >= 17 && aceCount11 > 0){
                         DealerHandValue -= 10;
                         aceCount11 --;
                     }
