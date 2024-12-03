@@ -308,18 +308,33 @@ public static void main(String[] args) {
             out1.write("Please enter your name:\n");
             out1.flush();
             
-            String player1Name = in1.readLine();
+            String player1Name = in1.readLine(); // Read the name
+            
             out1.write("Please enter your starting chips amount:\n");
             out1.flush();
-            int player1TotalChips = Integer.parseInt(in1.readLine());
-
+            
+            int player1TotalChips = 0;
+            try {
+                player1TotalChips = Integer.parseInt(in1.readLine()); // Read chips amount
+            } catch (NumberFormatException e) {
+                System.out.println(e);
+            }
+            
             //Recieve Player 2 information
             out2.write("Please enter your name:\n");
             out2.flush();
-            String player2Name = in2.readLine();
+
+            String player2Name = in1.readLine(); // Read the name
+
             out2.write("Please enter your starting chips amount:\n");
             out2.flush();
-            int player2TotalChips = Integer.parseInt(in2.readLine());
+
+            int player2TotalChips = 0;
+            try {
+                player2TotalChips = Integer.parseInt(in2.readLine()); // Read chips amount
+            } catch (NumberFormatException e) {
+            System.out.println(e);
+        }
 
             out1.write("Welcome " + player1Name + "!" + " You have been dealt your cards.\n");
             out1.flush();
